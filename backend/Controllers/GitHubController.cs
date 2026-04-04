@@ -31,4 +31,22 @@ public class GitHubController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    [HttpGet("user/{username}/languages")]
+    public async Task<IActionResult> GetUserLanguageStats(string username)
+    {
+        try
+        {
+            var languageStats = await _gitHubService.GetUserLanguageStatsAsync(username);
+            return Ok(languageStats);
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
