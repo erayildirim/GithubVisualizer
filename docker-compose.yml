@@ -1,25 +1,25 @@
-version: "3.9"
+version: '3.8'
 
 services:
-  backend:
+  backend-api:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "5225:5225"
     environment:
-      - ASPNETCORE_URLS=http://+:5000
       - ASPNETCORE_ENVIRONMENT=Development
-    depends_on: []
+    container_name: github-visualizer-backend
 
-  frontend:
+  frontend-app:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "5173:5173"
+    depends_on:
+      - backend-api
+    container_name: github-visualizer-frontend
     environment:
       - CHOKIDAR_USEPOLLING=true
-    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3000"]
-    depends_on:
-      - backend
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]

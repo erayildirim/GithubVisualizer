@@ -11,6 +11,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
-ENV ASPNETCORE_URLS=http://+:5000
-EXPOSE 5000
+ENV ASPNETCORE_URLS=http://+:5225
+EXPOSE 5225
 ENTRYPOINT ["dotnet", "backend.dll"]
