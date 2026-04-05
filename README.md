@@ -20,6 +20,22 @@ GitHub Visualizer is a full-stack application that integrates with the GitHub AP
 - **Real-time Data**: Fetches live data directly from the GitHub API
 - **Docker Support**: Containerized deployment with Docker and Docker Compose
 
+## 💻 Usage
+
+### Searching for a User
+
+1. Open the application at `http://localhost:5173`
+2. Enter a GitHub username in the search box
+3. Click "Search" or press Enter
+4. View the user's profile information and language statistics
+
+### Features
+
+- **Search Bar**: Fast, interactive search with immediate feedback
+- **Profile Card**: Displays user avatar, bio, follower count, and public repository count
+- **Language Chart**: Visual representation of programming languages used across all repositories
+- **Error Messages**: Clear feedback if the user is not found or an error occurs
+
 ## 🚀 Tech Stack
 
 ### Backend
@@ -137,7 +153,7 @@ GET /api/github/user/{username}
 
 **Example:**
 ```bash
-curl https://localhost:5225/api/github/user/torvalds
+curl https://localhost:5225/api/github/user/octocat
 ```
 
 #### Get User Language Statistics
@@ -158,7 +174,7 @@ GET /api/github/user/{username}/languages
 
 **Example:**
 ```bash
-curl https://localhost:5225/api/github/user/torvalds/languages
+curl https://localhost:5225/api/github/user/octocat/languages
 ```
 
 ### Error Handling
@@ -212,101 +228,12 @@ GithubVisualizer/
 └── README.md                         # This file
 ```
 
-## 💻 Usage
-
-### Searching for a User
-
-1. Open the application at `http://localhost:5173`
-2. Enter a GitHub username in the search box
-3. Click "Search" or press Enter
-4. View the user's profile information and language statistics
-
-### Features
-
-- **Search Bar**: Fast, interactive search with immediate feedback
-- **Profile Card**: Displays user avatar, bio, follower count, and public repository count
-- **Language Chart**: Visual representation of programming languages used across all repositories
-- **Error Messages**: Clear feedback if the user is not found or an error occurs
-
 ## 🔐 Security Considerations
 
 - The application uses the GitHub public API, which has rate limiting
 - CORS is properly configured to allow frontend-to-backend communication
 - No sensitive credentials are stored in the repository
 - All API requests are made server-side from the backend
-
-## 🚢 Deployment
-
-### Docker Deployment
-
-1. Build Docker images:
-```bash
-docker-compose build
-```
-
-2. Run the containers:
-```bash
-docker-compose up
-```
-
-3. Access the application:
-   - Frontend: `http://localhost:5173`
-   - Backend API: `http://localhost:5225`
-   - Swagger UI: `http://localhost:5225/swagger/index.html`
-
-### Production Considerations
-
-For production deployment, consider:
-- Setting `ASPNETCORE_ENVIRONMENT=Production` in docker-compose.yml
-- Configuring appropriate CORS policies for your domain
-- Using environment variables for sensitive configuration
-- Implementing rate limiting and caching
-- Setting up proper logging and monitoring
-
-## 🛠️ Development
-
-### Running Tests
-
-```bash
-# Backend tests (when added)
-cd backend
-dotnet test
-
-# Frontend tests (when added)
-cd frontend
-npm test
-```
-
-### Building for Production
-
-#### Backend
-```bash
-cd backend
-dotnet publish -c Release -o ./publish
-```
-
-#### Frontend
-```bash
-cd frontend
-npm run build
-```
-
-### Code Quality
-
-#### Backend
-- Follow C# coding standards and conventions
-- Use meaningful variable and method names
-- Include XML documentation comments for public APIs
-
-#### Frontend
-- Use TypeScript for type safety
-- Follow React best practices and hooks patterns
-- Use ESLint for code quality
-
-```bash
-cd frontend
-npm run lint
-```
 
 ## 📝 API Rate Limiting
 
@@ -315,81 +242,6 @@ GitHub API has rate limiting:
 - **Authenticated requests**: 5,000 requests per hour
 
 For higher rate limits, consider adding a GitHub personal access token to the backend configuration.
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Port Already in Use**
-```bash
-# Find and kill process using port 5173 (frontend)
-lsof -i :5173
-kill -9 <PID>
-
-# Or for port 5225 (backend)
-lsof -i :5225
-kill -9 <PID>
-```
-
-**Docker Issues**
-```bash
-# Remove dangling containers
-docker-compose down --remove-orphans
-
-# Rebuild from scratch
-docker-compose down
-docker-compose build --no-cache
-docker-compose up
-```
-
-**API Connection Issues**
-- Ensure backend is running on correct port (5225)
-- Check CORS configuration in `Program.cs`
-- Verify frontend API endpoint in `frontend/src/services/api.ts`
-
-## 📖 Resources
-
-- [GitHub API Documentation](https://docs.github.com/en/rest)
-- [Octokit.net Documentation](https://octokitnet.readthedocs.io/)
-- [ASP.NET Core Documentation](https://docs.microsoft.com/en-us/aspnet/core/)
-- [React Documentation](https://react.dev/)
-- [Vite Documentation](https://vitejs.dev/)
-- [Tailwind CSS Documentation](https://tailwindcss.com/)
-- [Recharts Documentation](https://recharts.org/)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 👨‍💻 Author
-
-Created by [Your Name/Organization]
-
-## 🙏 Acknowledgments
-
-- GitHub for providing the free public API
-- [Octokit](https://github.com/octokit/octokit.net) for the excellent GitHub API client
-- [React](https://react.dev/) and [Vite](https://vitejs.dev/) communities
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Recharts](https://recharts.org/) for beautiful charting components
-
-## 📞 Support
-
-For support, please:
-- Create an issue on GitHub
-- Check existing documentation and FAQs
-- Review the troubleshooting section above
-
 ---
 
 **Last Updated**: April 5, 2026
