@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 10.0.x
       - run: dotnet restore GithubVisualizer.sln
       - run: dotnet build GithubVisualizer.sln --configuration Release --no-restore
       - run: dotnet test GithubVisualizer.sln --configuration Release --no-build
@@ -42,3 +42,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker compose build
+      - name: Start the stack and check it through nginx
+        run: |
+          docker compose up --detach
+          for attempt in $(seq 1 30); do
+            curl --silent --fail http://localhost:5173/api/github/rate-limit && break
+            if [ "$attempt" = 30 ]; then docker compose logs; exit 1; fi
+            sleep 2
+          done
+          echo
+          curl --silent --fail --head "http://localhost:5173/?user=octocat" | grep -i "content-security-policy"
+          curl --silent --fail http://localhost:5173/ | grep -q '<div id="root">'
+      - if: always()
+        run: docker compose down

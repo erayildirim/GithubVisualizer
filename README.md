@@ -5,11 +5,12 @@
 **Turn any public GitHub profile into an interactive dashboard: languages, repositories, recent activity and side-by-side comparisons.**
 
 [![CI](https://github.com/erayildirim/GithubVisualizer/actions/workflows/ci.yml/badge.svg)](https://github.com/erayildirim/GithubVisualizer/actions/workflows/ci.yml)
-![.NET 8](https://img.shields.io/badge/.NET-8-512BD4?logo=dotnet&logoColor=white)
+![.NET 10](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)
 ![React 19](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 <img src="docs/screenshots/dashboard-light.png" alt="Dashboard showing a GitHub profile, headline statistics, language breakdown, repositories created per year and recent activity" width="900">
 
@@ -64,7 +65,7 @@ Open **http://localhost:5173**.
 
 ### Without Docker
 
-You need the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) and [Node.js 22](https://nodejs.org/). Run each command in its own terminal, from the repository root:
+You need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) and [Node.js 22](https://nodejs.org/). Run each command in its own terminal, from the repository root:
 
 ```bash
 # Terminal 1: API on http://localhost:5225 (Swagger UI at /swagger)
@@ -125,7 +126,7 @@ The browser only ever talks to its own origin, which keeps the token on the serv
 
 | Layer | Technology | Used for |
 | --- | --- | --- |
-| Backend | ASP.NET Core 8 (C#) | REST API, middleware and dependency injection |
+| Backend | ASP.NET Core 10 (C#) | REST API, middleware and dependency injection |
 | | Octokit | Typed GitHub API client |
 | | IMemoryCache | Reusing responses to save GitHub quota |
 | | Built-in rate limiter | Protecting a deployed server's quota from abuse |
@@ -255,6 +256,16 @@ GithubVisualizer/
 └── docker-compose.yml           Runs the whole stack
 ```
 
+## Deploy your own
+
+[`render.yaml`](render.yaml) deploys the app to [Render](https://render.com)'s free plan: the React app as a static site, and the API as a Docker web service.
+
+1. Fork this repository and change the service names in `render.yaml`. Render addresses are unique, and the `/api/*` rewrite must point at your API's address.
+2. In the Render dashboard, choose **New > Blueprint** and select your fork.
+3. When asked for `GitHub__Token`, paste a [personal access token](https://github.com/settings/personal-access-tokens). A shared host's address may already have used up GitHub's anonymous limit.
+
+The free API sleeps after 15 idle minutes, so the first search after a quiet period takes about a minute.
+
 ## Limitations
 
 These come from what GitHub's API exposes:
@@ -263,3 +274,7 @@ These come from what GitHub's API exposes:
 - **Activity isn't the contribution graph.** GitHub's events feed covers at most the latest 300 public events from the last 30 days, so totals can be lower than the green squares on a profile.
 - **Language sizes count bytes, not lines,** and include any code checked into a repository, such as vendored libraries.
 - **Very large accounts are capped** at 500 repositories per lookup to protect the quota. The app shows a notice when this applies.
+
+## License
+
+Released under the [MIT License](LICENSE).
