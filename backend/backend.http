@@ -1,6 +1,25 @@
 @backend_HostAddress = http://localhost:5225
+@username = octocat
 
-GET {{backend_HostAddress}}/weatherforecast/
+### Profile
+GET {{backend_HostAddress}}/api/github/user/{{username}}
 Accept: application/json
 
-###
+### Repositories
+GET {{backend_HostAddress}}/api/github/user/{{username}}/repos
+Accept: application/json
+
+### Language breakdown
+GET {{backend_HostAddress}}/api/github/user/{{username}}/languages
+Accept: application/json
+
+### Activity in the last 30 days
+GET {{backend_HostAddress}}/api/github/user/{{username}}/activity
+Accept: application/json
+
+### Remaining GitHub quota (free to call)
+GET {{backend_HostAddress}}/api/github/rate-limit
+Accept: application/json
+
+### Health
+GET {{backend_HostAddress}}/health
