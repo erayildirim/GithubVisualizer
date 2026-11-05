@@ -1,0 +1,48 @@
+# Render Blueprint: free live deployment. In the Render dashboard choose New > Blueprint and select this repo.
+services:
+  # ASP.NET Core API. On the free plan it sleeps after 15 idle minutes and takes about a minute to wake.
+  - type: web
+    name: erayildirim-github-visualizer-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    envVars:
+      # Render asks for this value when the Blueprint is created. Never commit the token here.
+      - key: GitHub__Token
+        sync: false
+      - key: ReverseProxy__Enabled
+        value: "true"
+      - key: PORT
+        value: "5225"
+
+  # React app on Render's CDN. It never sleeps, so the page always opens immediately.
+  - type: web
+    name: erayildirim-github-visualizer
+    runtime: static
+    # Dev dependencies are needed to build, even if the build environment sets NODE_ENV=production.
+    buildCommand: cd frontend && npm ci --include=dev && npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+    routes:
+      # Keeps the API on the same origin, as nginx does in the Docker setup. Must match the API's onrender.com address.
+      - type: rewrite
+        source: /api/*
+        destination: https://erayildirim-github-visualizer-api.onrender.com/api/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    # Same policy as frontend/security-headers.inc.
+    headers:
+      - path: /*
+        name: Content-Security-Policy
+        value: "default-src 'self'; img-src 'self' data: https://avatars.githubusercontent.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin

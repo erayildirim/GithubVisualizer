@@ -1,0 +1,70 @@
+/**
+ * The colors GitHub itself uses for languages (from github-linguist), so a language looks the same here
+ * as on a profile page. A color always follows the language, never its rank. Identity is also carried by
+ * the name beside every swatch, and unknown languages get neutral gray rather than a generated hue.
+ */
+const COLORS: Record<string, string> = {
+  Assembly: '#6E4C13',
+  Astro: '#ff5a03',
+  Batchfile: '#C1F12E',
+  C: '#555555',
+  'C#': '#178600',
+  'C++': '#f34b7d',
+  Clojure: '#db5855',
+  CMake: '#DA3434',
+  CoffeeScript: '#244776',
+  CSS: '#563d7c',
+  Dart: '#00B4AB',
+  Dockerfile: '#384d54',
+  Elixir: '#6e4a7e',
+  Elm: '#60B5CC',
+  Erlang: '#B83998',
+  Fortran: '#4d41b1',
+  'F#': '#b845fc',
+  GLSL: '#5686a5',
+  Go: '#00ADD8',
+  Groovy: '#4298b8',
+  Haskell: '#5e5086',
+  HCL: '#844FBA',
+  HTML: '#e34c26',
+  Java: '#b07219',
+  JavaScript: '#f1e05a',
+  'Jupyter Notebook': '#DA5B0B',
+  Julia: '#a270ba',
+  Kotlin: '#A97BFF',
+  Less: '#1d365d',
+  Lua: '#000080',
+  Makefile: '#427819',
+  MATLAB: '#e16737',
+  Nix: '#7e7eff',
+  'Objective-C': '#438eff',
+  OCaml: '#ef7a08',
+  Perl: '#0298c3',
+  PHP: '#4F5D95',
+  PowerShell: '#012456',
+  Python: '#3572A5',
+  R: '#198CE7',
+  Roff: '#ecdebe',
+  Ruby: '#701516',
+  Rust: '#dea584',
+  Scala: '#c22d40',
+  SCSS: '#c6538c',
+  Shell: '#89e051',
+  Solidity: '#AA6746',
+  SQL: '#e38c00',
+  Svelte: '#ff3e00',
+  Swift: '#F05138',
+  TeX: '#3D6117',
+  TypeScript: '#3178c6',
+  'Vim Script': '#199f4b',
+  'Visual Basic .NET': '#945db7',
+  Vue: '#41b883',
+  WebAssembly: '#04133b',
+  Zig: '#ec915c',
+};
+
+export const NEUTRAL_COLOR = '#8b8a84';
+
+export function languageColor(language: string | null | undefined): string {
+  return (language && COLORS[language]) || NEUTRAL_COLOR;
+}

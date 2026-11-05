@@ -1,25 +1,25 @@
-version: '3.8'
-
 services:
   backend-api:
     build:
       context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "5225:5225"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
     container_name: github-visualizer-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      # Optional. Raises the GitHub quota from 60 to 5,000 requests per hour. See .env.example.
+      - GitHub__Token=${GITHUB_TOKEN:-}
+      # nginx is the only way in, so the client address it forwards can be trusted.
+      - ReverseProxy__Enabled=true
+    # Reachable by the frontend container only, not published on the host.
+    expose:
+      - "5225"
+    restart: unless-stopped
 
   frontend-app:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+    container_name: github-visualizer-frontend
     ports:
-      - "5173:5173"
+      - "${FRONTEND_PORT:-5173}:8080"
     depends_on:
       - backend-api
-    container_name: github-visualizer-frontend
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+    restart: unless-stopped

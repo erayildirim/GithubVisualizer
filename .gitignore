@@ -23,8 +23,12 @@ appsettings.*.json
 node_modules/
 dist/
 build/
+.env
 .env.local
 .env.*.local
+coverage/
+TestResults/
+*.tsbuildinfo
 .pnp
 .pnp.js
 npm-debug.log*
