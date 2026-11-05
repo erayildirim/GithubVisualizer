@@ -4,6 +4,10 @@
 
 **Turn any public GitHub profile into an interactive dashboard: languages, repositories, recent activity and side-by-side comparisons.**
 
+### [Try the live demo](https://erayildirim-github-visualizer.onrender.com/?user=torvalds)
+
+<sub>Hosted on a free plan: the first search after a quiet period can take up to a minute while the API wakes up.</sub>
+
 [![CI](https://github.com/erayildirim/GithubVisualizer/actions/workflows/ci.yml/badge.svg)](https://github.com/erayildirim/GithubVisualizer/actions/workflows/ci.yml)
 ![.NET 10](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)
 ![React 19](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)
