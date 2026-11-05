@@ -1,11 +1,16 @@
-FROM node:20-alpine
+FROM node:22-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm ci --no-audit --no-fund
 
 COPY . .
+RUN npm run build
 
-EXPOSE 5173
+# The unprivileged image runs nginx without root and listens on 8080.
+FROM nginxinc/nginx-unprivileged:1.29-alpine AS runtime
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY security-headers.inc /etc/nginx/conf.d/security-headers.inc
+COPY --from=build /app/dist /usr/share/nginx/html
 
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+EXPOSE 8080
